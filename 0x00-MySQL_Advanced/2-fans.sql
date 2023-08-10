@@ -1,7 +1,7 @@
 -- Import the table dump from the provided file
 -- Make sure to update the path to the actual location of the dump file
 -- The command below assumes the dump file is named "metal_bands.sql"
-SOURCE metal_bands.sql;
+-- SOURCE metal_bands.sql;
 
 -- Create a temporary table to store the aggregated fan counts by country
 CREATE TEMPORARY TABLE temp_origin_fans AS
