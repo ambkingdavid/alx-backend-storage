@@ -1,3 +1,2 @@
 // find a match in the school collections
-match = { name: "Holberton school"}
-db.school.find(match)
+db.school.find({ name: "Holberton school" });
