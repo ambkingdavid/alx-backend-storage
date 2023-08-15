@@ -1,2 +1,2 @@
 doc = { name: "Holberton school" };
-insertOne(doc);
+db.school.insert(doc);
