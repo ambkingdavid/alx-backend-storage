@@ -30,4 +30,4 @@ if __name__ == "__main__":
     ])
     print("IPs:")
     for ip in top_ips:
-        print(f"\t{ip['ip']}: {ip['count']}")
+        print(f"\t{ip['_id']}: {ip['count']}")
