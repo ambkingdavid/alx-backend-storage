@@ -1,0 +1,2 @@
+// count number of documents in the school collections
+db.school.count();
