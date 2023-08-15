@@ -29,5 +29,5 @@ if __name__ == "__main__":
         {"$limit": 10}
     ])
     print("IPs:")
-    for i, ip in enumerate(top_ips, 1):
+    for ip in top_ips:
         print(f"\t{ip['ip']}: {ip['count']}")
