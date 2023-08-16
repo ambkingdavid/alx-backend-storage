@@ -9,6 +9,28 @@ from functools import wraps
 import redis
 
 
+def replay(method):
+    """
+    Display the history of calls for a particular function.
+    """
+    # Get the qualified name of the method using __qualname__
+    method_name = method.__qualname__
+
+    # Create input and output list keys
+    inputs_key = f"{method_name}:inputs"
+    outputs_key = f"{method_name}:outputs"
+
+    # Get the input and output lists from Redis
+    inputs = cache._redis.lrange(inputs_key, 0, -1)
+    outputs = cache._redis.lrange(outputs_key, 0, -1)
+
+    # Display the history of calls
+    print(f"{method_name} was called {len(inputs)} times:")
+    for input_str, output_str in zip(inputs, outputs):
+        input_args = tuple(eval(input_str.decode('utf-8')))
+        output_value = output_str.decode('utf-8')
+        print(f"{method_name}{input_args} -> {output_value}")
+
 def count_calls(fn: Callable) -> Callable:
     """
     Decorator to count the number of times
