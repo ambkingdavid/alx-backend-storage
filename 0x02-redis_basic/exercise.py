@@ -4,7 +4,7 @@
 
 from typing import Union, Callable
 from uuid import uuid4
-from functool import wraps
+from functools import wraps
 
 import redis
 
