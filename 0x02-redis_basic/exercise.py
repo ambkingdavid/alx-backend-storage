@@ -51,7 +51,9 @@ def call_history(method):
     """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        # Get the qualified name of the method using __qualname__
+        """
+        Get the qualified name of the method using __qualname__
+        """
         method_name = method.__qualname__
 
         # Create input and output list keys
