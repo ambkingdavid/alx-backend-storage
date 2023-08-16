@@ -55,10 +55,8 @@ def call_history(method):
         Get the qualified name of the method using __qualname__
         """
         if isinstance(self._redis, redis.Redis):
-            method_name = method.__qualname__
-
-            inputs_key = f"{method_name}:inputs"
-            outputs_key = f"{method_name}:outputs"
+            inputs_key = f"{method.__qualname__}:inputs"
+            outputs_key = f"{method.__qualname__}:outputs"
 
             input_str = str(args)
             self._redis.rpush(inputs_key, input_str)
