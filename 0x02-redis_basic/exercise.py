@@ -9,6 +9,25 @@ from functools import wraps
 import redis
 
 
+def count_calls(fn: Callable) -> Callable:
+    """
+    Decorator to count the number of times
+    a method is called
+
+    Args:
+        fn (Callable): The method to be decorated.
+
+    Returns:
+        Callable: The decorated method.
+    """
+    @wraps(fn)
+    def wrapper(self, *args, **kwargs):
+        key = fn.__qualname__
+        self._redis.incr(key)
+        return fn(self, *args, **kwargs)
+    return wrapper
+
+
 class Cache:
     """
     A cache class
@@ -21,25 +40,6 @@ class Cache:
         """
         self._redis = redis.Redis()
         self._redis.flushdb()
-
-    @staticmethod
-    def count_calls(fn: Callable) -> Callable:
-        """
-        Decorator to count the number of times
-        a method is called
-
-        Args:
-            fn (Callable): The method to be decorated.
-
-        Returns:
-            Callable: The decorated method.
-        """
-        @wraps(fn)
-        def wrapper(self, *args, **kwargs):
-            key = "{}".format(fn.__qualname__)
-            self._redis.incr(key)
-            return fn(self, *args, **kwargs)
-        return wrapper
 
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
