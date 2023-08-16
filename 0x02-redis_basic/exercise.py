@@ -32,25 +32,15 @@ def replay(method):
         print(f"{method_name}{input_args} -> {output_value}")
 
 
-def count_calls(fn: Callable) -> Callable:
+def count_calls(method: Callable) -> Callable:
     """
-    Decorator to count the number of times
-    a method is called
-
-    Args:
-        fn (Callable): The method to be decorated.
-
-    Returns:
-        Callable: The decorated method.
+    Decorator function that takes in a callable
     """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        """
-        increment count
-        """
+        """increment count"""
         if isinstance(self._redis, redis.Redis):
-            key = method.__qualname__
-            self._redis.incr(key)
+            self._redis.incr(method.__qualname__)
         return method(self, *args, **kwargs)
     return wrapper
 
