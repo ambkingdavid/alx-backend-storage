@@ -37,10 +37,12 @@ class Cache:
 
         Args:
             key (str): The key to retrieve data from Redis.
-            fn (Callable, optional): A conversion function to apply to the retrieved data.
+            fn (Callable, optional): A conversion function to
+            apply to the retrieved data.
 
         Returns:
-            Union[str, bytes]: The retrieved data from Redis, optionally converted using fn.
+            Union[str, bytes]: The retrieved data from Redis,
+            optionally converted using fn.
         """
         data: bytes = self._redis.get(key)
         if data is None:
@@ -52,7 +54,8 @@ class Cache:
 
     def get_str(self, key: str) -> str:
         """
-        Retrieve a string from Redis using the provided key and return it as a string.
+        Retrieve a string from Redis using the provided key
+        and return it as a string.
 
         Args:
             key (str): The key to retrieve the string from Redis.
@@ -64,7 +67,8 @@ class Cache:
 
     def get_int(self, key: str) -> int:
         """
-        Retrieve an integer from Redis using the provided key and return it as an integer.
+        Retrieve an integer from Redis using the provided key
+        and return it as an integer.
 
         Args:
             key (str): The key to retrieve the integer from Redis.
