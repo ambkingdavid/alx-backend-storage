@@ -6,6 +6,7 @@ import uuid
 from typing import Union, Callable
 import functools
 
+
 class Cache:
     def __init__(self) -> None:
         """
