@@ -7,6 +7,7 @@ from typing import Union, Callable
 import functools
 
 
+
 class Cache:
     def __init__(self) -> None:
         """
@@ -36,7 +37,7 @@ class Cache:
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Store the input data in Redis using a random key and return the key.
-
+        
         Args:
             data (Union[str, bytes, int, float]): Data to be stored in the cache.
 
@@ -65,3 +66,27 @@ class Cache:
         if fn is not None:
             return fn(data)
         return data
+
+    def get_str(self, key: str) -> str:
+        """
+        Retrieve a string from Redis using the provided key and return it as a string.
+
+        Args:
+            key (str): The key to retrieve the string from Redis.
+
+        Returns:
+            str: The retrieved string from Redis.
+        """
+        return self.get(key, fn=lambda x: x.decode('utf-8'))
+
+    def get_int(self, key: str) -> int:
+        """
+        Retrieve an integer from Redis using the provided key and return it as an integer.
+
+        Args:
+            key (str): The key to retrieve the integer from Redis.
+
+        Returns:
+            int: The retrieved integer from Redis.
+        """
+        return self.get(key, fn=int)
