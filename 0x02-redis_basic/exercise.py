@@ -32,7 +32,8 @@ class Cache:
 
     def get(self, key: str, fn: Callable = None) -> Union[str, bytes]:
         """
-        Retrieve data from Redis using the provided key and optionally apply the conversion function.
+        Retrieve data from Redis using the provided key and optionally
+        apply the conversion function.
 
         Args:
             key (str): The key to retrieve data from Redis.
