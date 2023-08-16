@@ -22,6 +22,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @staticmethod
     def count_calls(fn: Callable) -> Callable:
         """
         Decorator to count the number of times
