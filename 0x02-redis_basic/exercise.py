@@ -31,6 +31,7 @@ def replay(method):
         output_value = output_str.decode('utf-8')
         print(f"{method_name}{input_args} -> {output_value}")
 
+
 def count_calls(fn: Callable) -> Callable:
     """
     Decorator to count the number of times
@@ -48,6 +49,7 @@ def count_calls(fn: Callable) -> Callable:
         self._redis.incr(key)
         return fn(self, *args, **kwargs)
     return wrapper
+
 
 def call_history(method):
     """
