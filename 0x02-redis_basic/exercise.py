@@ -54,23 +54,24 @@ def call_history(method):
         """
         Get the qualified name of the method using __qualname__
         """
-        method_name = method.__qualname__
+        if isinstance(self._redis, redis.Redis):
+            method_name = method.__qualname__
 
-        # Create input and output list keys
-        inputs_key = f"{method_name}:inputs"
-        outputs_key = f"{method_name}:outputs"
+            # Create input and output list keys
+            inputs_key = f"{method_name}:inputs"
+            outputs_key = f"{method_name}:outputs"
 
-        # Append input arguments to the input list
-        input_str = str(args)
-        self._redis.rpush(inputs_key, input_str)
+            # Append input arguments to the input list
+            input_str = str(args)
+            self._redis.rpush(inputs_key, input_str)
 
-        # Call the original method and retrieve its output
-        output = method(self, *args, **kwargs)
+            # Call the original method and retrieve its output
+            output = method(self, *args, **kwargs)
 
-        # Store the output in the output list
-        self._redis.rpush(outputs_key, output)
+            # Store the output in the output list
+            self._redis.rpush(outputs_key, output)
 
-        return output
+            return output
 
     return wrapper
 
