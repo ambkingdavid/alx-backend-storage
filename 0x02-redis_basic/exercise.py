@@ -45,29 +45,21 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 
-def call_history(method):
+def call_history(method: Callable) -> Callable:
     """
-    Decorator to store the history of inputs and outputs for a function.
+    Returns callable
     """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        """
-        Get the qualified name of the method using __qualname__
-        """
+        """Invoke a function"""
+        input_key = f"{method.__qualname__}:inputs"
+        output_key = f"{method.__qualname__}:outputs"
         if isinstance(self._redis, redis.Redis):
-            inputs_key = f"{method.__qualname__}:inputs"
-            outputs_key = f"{method.__qualname__}:outputs"
-
-            input_str = str(args)
-            self._redis.rpush(inputs_key, input_str)
-
-            output = method(self, *args, **kwargs)
-
-            self._redis.rpush(outputs_key, output)
-
-            return output
-        return method(self, *args, **kwargs)
-
+            self._redis.rpush(input_key, str(args))
+        ret = method(self, *args, **kwargs)
+        if isinstance(self._redis, redis.Redis):
+            self._redis.rpush(output_key, ret)
+        return ret
     return wrapper
 
 
