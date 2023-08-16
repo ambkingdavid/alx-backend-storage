@@ -49,7 +49,7 @@ def count_calls(fn: Callable) -> Callable:
         increment count
         """
         if isinstance(self._redis, redis.Redis):
-            key = fn.__qualname__
+            key = method.__qualname__
             self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
