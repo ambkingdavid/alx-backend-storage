@@ -11,25 +11,20 @@ import redis
 
 def replay(method):
     """
-    Display the history of calls for a particular function.
+    Display the history of calls
     """
-    # Get the qualified name of the method using __qualname__
-    method_name = method.__qualname__
+    inputs_key = f"{method.__qualname__}:inputs"
+    outputs_key = f"{method.__qualname__}:outputs"
 
-    # Create input and output list keys
-    inputs_key = f"{method_name}:inputs"
-    outputs_key = f"{method_name}:outputs"
-
-    # Get the input and output lists from Redis
     inputs = cache._redis.lrange(inputs_key, 0, -1)
     outputs = cache._redis.lrange(outputs_key, 0, -1)
 
-    # Display the history of calls
-    print(f"{method_name} was called {len(inputs)} times:")
+    print(f"{method.__qualname__} was called {len(inputs)} times:")
     for input_str, output_str in zip(inputs, outputs):
-        input_args = tuple(eval(input_str.decode('utf-8')))
+        input_args = eval(input_str.decode('utf-8'))
         output_value = output_str.decode('utf-8')
-        print(f"{method_name}{input_args} -> {output_value}")
+        input_args_str = ", ".join(repr(arg) for arg in input_args)
+        print(f"{method.__qualname__}(*({input_args_str},)) -> {output_value}")
 
 
 def count_calls(method: Callable) -> Callable:
@@ -119,3 +114,12 @@ class Cache:
         """
 
         return self.get(key, fn=int)
+
+
+cache = Cache()
+
+s1 = cache.store("foo")
+s2 = cache.store("bar")
+s3 = cache.store(42)
+
+replay(cache.store)
