@@ -48,8 +48,9 @@ def count_calls(fn: Callable) -> Callable:
         """
         increment count
         """
-        key = fn.__qualname__
-        self._redis.incr(key)
+        if isinstance(self._radis, redis.Redis):
+            key = fn.__qualname__
+            self._redis.incr(key)
         return fn(self, *args, **kwargs)
     return wrapper
 
