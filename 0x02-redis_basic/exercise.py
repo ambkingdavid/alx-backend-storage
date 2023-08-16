@@ -114,12 +114,3 @@ class Cache:
         """
 
         return self.get(key, fn=int)
-
-
-cache = Cache()
-
-s1 = cache.store("foo")
-s2 = cache.store("bar")
-s3 = cache.store(42)
-
-replay(cache.store)
