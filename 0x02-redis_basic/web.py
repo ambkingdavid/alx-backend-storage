@@ -7,13 +7,17 @@ from functools import wraps
 from datetime import datetime, timedelta
 from typing import Callable, Any, Dict
 
+
 cache = {}
+
 
 def cache_decorator(expiration_time: int) -> Callable:
     """
-    A decorator function that caches the results of a function for a specified amount of time.
-    
-    :param expiration_time: The amount of time in seconds to cache the results of the function.
+    A decorator function that caches the results of a
+    function for a specified amount of time.
+
+    :param expiration_time: The amount of time in seconds
+    to cache the results of the function.
     :return: A decorator that can be used to cache the results of a function.
     """
     def decorator(func: Callable) -> Callable:
@@ -34,11 +38,13 @@ def cache_decorator(expiration_time: int) -> Callable:
         return wrapper
     return decorator
 
+
 @cache_decorator(expiration_time=10)
 def get_page(url: str) -> str:
     """
-    A function that uses the requests module to obtain the HTML content of a particular URL and returns it.
-    
+    A function that uses the requests module to obtain the HTML
+    content of a particular URL and returns it.
+
     :param url: The URL to get the HTML content from.
     :return: The HTML content of the specified URL.
     """
